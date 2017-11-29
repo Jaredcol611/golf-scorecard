@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="CDN/Jquery/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="CDN/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="custom.css">
+
+</head>
+<body onload="loadMe()">
+    <div class="page">
+        <div class="container">
+            <select id="selectCourse" onchange="getCourse(this.value)" ></select>
+            <select id="teeSelect" onchange="buildCard(this.value)"></select>
+
+            <input class='playerInput playerOne' type="text">
+            <input class='playerInput playerTwo' type="text">
+            <input class='playerInput playerThree' type="text">
+            <input class='playerInput playerFour' type="text">
+
+            <button >Build Card</button>
+        </div>
+
+        <div class="card">
+            <div class="playerColumn">
+
+            </div>
+            <div class="scoreColumn">
+
+            </div>
+        </div>
+    </div>
+<script src="main.js"></script>
+</body>
+</html>
