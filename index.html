@@ -15,7 +15,7 @@
         <div class="container">
             <div class="selects">
                 <select id="selectCourse" onchange="getCourse(this.value)" ></select>
-                <select id="teeSelect" onchange="buildCard(this.value)"></select>
+                <select id="teeSelect"></select>
             </div>
             <div class="inputs">
                 <input class='playerInput playerOne' type="text" placeholder='Player One'>
@@ -24,7 +24,7 @@
                 <input class='playerInput playerFour' type="text" placeholder='Player Four'>
             </div>
             <div class="build">
-                <button onclick="buildCard(closeCourses.course.tee_types.tee_type)">Build Card</button>
+                <button onclick="buildCard($('#teeSelect').val())">Build Card</button>
             </div>
         </div>
 

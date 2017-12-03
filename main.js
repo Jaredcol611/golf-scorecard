@@ -2,7 +2,8 @@ let closeCourses;
 let currentCourse;
 let local_obj = {latitude: 40.391617, longitude: -111.850766, radius: 100};
 let numHoles;
-let numPlayers = 5;
+let numPlayers = 4;
+let playerName = [];
 
 function loadMe() {
     $('.courseName').hide();
@@ -37,8 +38,19 @@ function getCourse(courseId){
 
 //in function call before all this hits do $('#teeSelect').html("")
 function buildCard(myTee){
+    playerName.push($('.playerOne').val(), $('.playerTwo').val(), $('.playerThree').val(), $('.playerFour').val());
+    if($('.playerFour').val().trim() === ""){
+        numPlayers = 3;
+    }
+    if($('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
+        numPlayers = 2;
+    }
+    if($('.playerTwo').val().trim() === "" && $('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
+        numPlayers = 1;
+    }
     $('.scoreColumn').html("");
     $('.playerColumn').html("");
+    $('.container').hide();
     numHoles = currentCourse.course.holes;
     for(let c in numHoles){
         let holePar = currentCourse.course.holes[c].tee_boxes[myTee].par;
@@ -46,22 +58,21 @@ function buildCard(myTee){
     }
     //let thumbNail = currentCourse.course.thumbnail;
     $('html').css("background-image", "url(./images/course3.jpg)");
-    $('.container').hide();
     $('.scoreColumn').append("<div class='totalColumn column'><div class='total' >Total</div></div>");
     let courseName = currentCourse.course.name;
-    $('.courseName').append(courseName);
-    $('.courseName').show();
+    $('.courseName').append(courseName).show();
     fillCard();
 }
 
 function fillCard(){
   //  let playerName = input.val();
     for(let p = 1; p <= numPlayers; p++){
-        $('.playerColumn').append("<div id='pl" + p +"'><div contenteditable='true'>playerName" + p + "</div><span onclick='deletePlayer(" + p + ")'><i class=\"fa fa-minus-circle\" aria-hidden=\"true\"></i></span></div>");
+        $('.playerColumn').append("<div id='pl" + p +"'><div contenteditable='true'>" + playerName[p - 1] + "</div><span onclick='deletePlayer(" + p + ")'><i class=\"fa fa-minus-circle\" aria-hidden=\"true\"></i></span></div>");
        $('.totalColumn').append("<input type='text' class='holeInput' id='totalHole" + p + "'>");
         for(let h = 1; h <= numHoles.length; h++){
             $('#column' + h).append("<input type='text' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore(" + p +  ")'>");
         }
+
     }
 }
 
