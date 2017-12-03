@@ -9,18 +9,25 @@
 
 </head>
 <body onload="loadMe()">
+
+    <div class="courseName"></div>
     <div class="page">
         <div class="container">
-            <select id="selectCourse" onchange="getCourse(this.value)" ></select>
-            <select id="teeSelect" onchange="buildCard(this.value)"></select>
-
-            <input class='playerInput playerOne' type="text">
-            <input class='playerInput playerTwo' type="text">
-            <input class='playerInput playerThree' type="text">
-            <input class='playerInput playerFour' type="text">
-
-            <button >Build Card</button>
+            <div class="selects">
+                <select id="selectCourse" onchange="getCourse(this.value)" ></select>
+                <select id="teeSelect" onchange="buildCard(this.value)"></select>
+            </div>
+            <div class="inputs">
+                <input class='playerInput playerOne' type="text" placeholder='Player One'>
+                <input class='playerInput playerTwo' type="text" placeholder='Player Two'>
+                <input class='playerInput playerThree' type="text" placeholder='Player Three'>
+                <input class='playerInput playerFour' type="text" placeholder='Player Four'>
+            </div>
+            <div class="build">
+                <button onclick="buildCard(closeCourses.course.tee_types.tee_type)">Build Card</button>
+            </div>
         </div>
+
 
         <div class="card">
             <div class="playerColumn">
