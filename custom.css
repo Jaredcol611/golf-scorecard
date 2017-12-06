@@ -7,38 +7,43 @@ html {
     background-repeat: no-repeat;
 
 }
-.holeInput{
+.holeInput {
     width: 100%;
     min-height: 40px;
     font-size: 30px;
     padding: 0;
+    -webkit-appearance: none;
     margin: 0;
 }
 .scoreColumn{
     display: flex;
     height: 100%;
+    background-color: whitesmoke;
 }
 .scoreColumn > div {
     overflow: hidden;
 }
 .playerColumn{
     width: 110px;
-    color: mediumspringgreen;
 }
 .playerColumn:first-child{
-    margin-top: 50px;
+    margin-top: 85px;
 }
 .playerColumn > div:not(:first-child){
-    margin-top: 25px;
+    margin-top: 20px;
 }
 .playerColumn > div{
     display: flex;
 }
 .playerColumn > div > div{
-    padding-right: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: whitesmoke;
+    padding: 2px 5px;
 }
 .playerColumn > div > span{
-    padding-right: 5px;
+    padding: 5px 5px 0 5px;
+    color: red;
 }
 .holeNumber{
     text-align: center;
@@ -68,9 +73,6 @@ html {
     display: flex;
     flex-direction: column;
 }
-.playerInput{
-    display: block;
-}
 #selectCourse{
     width: 250px;
 }
@@ -78,16 +80,22 @@ html {
     width: 100px;
 }
 .total{
-    height: 36px;
+    height: 18px;
+    width: 55px;
+    display: flex;
+    justify-content: center;
+}
+.score{
+    height: 72px;
     width: 55px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .selects {
-    margin-top: 30px;
+    margin-top: 20px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .inputs input{
     margin-left: 73px;
@@ -95,6 +103,14 @@ html {
 }
 .inputs input:not(:first-child){
     margin-top: 20px;
+}
+.playerInput{
+    display: block;
+}
+.zip{
+    margin-left: 73px;
+    margin-top: 20px;
+    border-radius: 5px;
 }
 .build{
     text-align: center;
@@ -107,4 +123,7 @@ html {
     margin: 40px 0 75px 0;
     width: 100%;
     height: 50px;
+}
+.yards{
+    text-align: center;
 }

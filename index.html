@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="custom.css">
 
 </head>
-<body onload="loadMe()">
+<body onload="hideTitle()">
 
     <div class="courseName"></div>
     <div class="page">
         <div class="container">
+            <div class="zipInput">
+                <input onchange="getLocation(this.value)" class="zip" placeholder="City or zip">
+            </div>
             <div class="selects">
                 <select id="selectCourse" onchange="getCourse(this.value)" ></select>
                 <select id="teeSelect"></select>
