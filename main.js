@@ -9,12 +9,11 @@ let lati;
 let longi;
 let local_obj;
 let zipSearch;
+let totalHCP = 0;
 let key = 'AIzaSyCDt-DBTk2MCvsZZI_9pB7IInyxu3pJt0Y';
 //lat 40.391617 lng -111.850766
 
-function hideTitle(){
-    $('.courseName').hide();
-}
+// MAKE A ROW OF ALL THE HANDICAP UNDER ALL THE INPUTS AND THEN A LONG BAR FOR OUT AND IN
 
 function getLocation(zipCode){
     $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+zipCode+'&key='+key+'', function(data, status){
@@ -24,6 +23,7 @@ function getLocation(zipCode){
         longi = zipSearch.results[0].geometry.location.lng;
         local_obj = {latitude: lati, longitude: longi, radius: 100};
         loadMe();
+        $('#selectCourse').html("");
     })
 }
 function loadMe() {
@@ -31,13 +31,10 @@ function loadMe() {
         closeCourses = JSON.parse(data);
         for (let i in closeCourses.courses){
             console.log(closeCourses.courses[i].name);
-            $('#selectCourse').append('<option value="' + closeCourses.courses[i].id + '" >' + closeCourses.courses[i].name + '</option>');
-
+            $('#selectCourse').append('<option value="' + closeCourses.courses[i].id + '">' + closeCourses.courses[i].name + '</option>');
         }
     });
 }
-// onclick="getCourse(closeCourses.courses[i])"
-// use.id instead of .name
 function getCourse(courseId){
     $('.scoreColumn').html("");
     $('#teeSelect').html("");
@@ -65,7 +62,7 @@ function buildCard(myTee){
         numPlayers = 1;
     }
     if($('.playerOne').val().trim() === "" && $('.playerTwo').val().trim() === "" && $('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
-        alert("Please enter a player.");
+       alert("Please enter a player.");
     }
     //Possible separate function here to call after checking for names
     // $('.scoreColumn').html("");
@@ -77,12 +74,19 @@ function buildCard(myTee){
         $('.scoreColumn').append("<div id='column" + (Number(c)+1) + "' class='column'><div class='holeNumber'>" + (Number(c)+1) + "</div><div class='holeNumber'>Par " + holePar + "</div></div>");
         parTotal += holePar;
         let holeYards = currentCourse.course.holes[c].tee_boxes[myTee].yards;
+        let handicap = currentCourse.course.holes[c].tee_boxes[myTee].hcp;
+        if(handicap === undefined){
+            handicap = "";
+            $('.yards').html("");
+            $('.yards2').html("");
+        }
         totalYards += holeYards;
-        $('#column' + (Number(c)+1)).append("<div class='yards'>Yards:</div><div class='yards'>" + holeYards + "</div>");
+        totalHCP += handicap;
+        $('#column' + (Number(c)+1)).append("<div class='yards'>Yards:</div><div class='yards2'>" + holeYards + "</div><div class='handicap'>HCP:</div><div class='handicap2'>" + handicap + "</div>");
     }
     //let thumbNail = currentCourse.course.thumbnail;
     $('html').css("background-image", "url(./images/course3.jpg)");
-    $('.scoreColumn').append("<div class='totals column'><div class='total' >Totals:</div><div class='total'>Par" + parTotal + "</div><div class='yards'>Yards:</div><div class='yards'>" + totalYards + "</div></div>");
+    $('.scoreColumn').append("<div class='totals column'><div class='total' >Totals:</div><div class='total'>Par " + parTotal + "</div><div class='yards'>Yards:</div><div class='yards2'>" + totalYards + "</div></div>");
     $('.scoreColumn').append("<div class='totalColumn column'><div class='score'>Score</div></div>");
     let courseName = currentCourse.course.name;
     $('.courseName').append(courseName).show();
@@ -90,16 +94,23 @@ function buildCard(myTee){
 }
 function fillCard(){
   //  let playerName = input.val();
+    $('#column9').after("<div class='inOut' id='out'><div class='title'>Out Score</div><div class='break'></div></div>");
+    $('#column18').after("<div class='inOut' id='in'><div class='title'>In<br>Score</div><div class='break'></div></div>");
     for(let p = 1; p <= numPlayers; p++){
         $('.playerColumn').append("<div id='pl" + p +"'><span onclick='deletePlayer(" + p + ")'><i class=\"fa fa-minus-circle\" aria-hidden=\"true\"></i></span>  <div contenteditable='true'>" + playerName[p - 1] + "</div></div>");
+        //this is the out and in output for the back and front 9
+        $('#out').append("<input type='number' class='holeInput' id='player" + p + "Out'>");
+        $('#in').append("<input type='number' class='holeInput' id='player" + p + "In'>");
        $('.totalColumn').append("<input type='number' class='holeInput' id='totalHole" + p + "'>");
         for(let h = 1; h <= numHoles.length; h++){
+            //make if statement for h < 9 && h > 9
             $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore(" + p +  ")'>");
         }
-
     }
-}
 
+
+
+}
 function deletePlayer(playerid){
     $('#pl' + playerid).remove();
     for(let h = 1; h <= numHoles.length; h++){
@@ -114,5 +125,5 @@ function updateScore(playerid){
     }
     $("#totalHole" + playerid).val(playerTotal);
 }
-//check to make sure if course has different tee types. make a case statement and then give it a regular. SCHNEITERS PEBBLE BROOK doesn't have tee types or holes
+
 

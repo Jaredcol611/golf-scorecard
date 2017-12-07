@@ -12,7 +12,6 @@ html {
     min-height: 40px;
     font-size: 30px;
     padding: 0;
-    -webkit-appearance: none;
     margin: 0;
 }
 .scoreColumn{
@@ -27,7 +26,7 @@ html {
     width: 110px;
 }
 .playerColumn:first-child{
-    margin-top: 85px;
+    margin-top: 125px;
 }
 .playerColumn > div:not(:first-child){
     margin-top: 20px;
@@ -47,6 +46,7 @@ html {
 }
 .holeNumber{
     text-align: center;
+    border-bottom: 1px solid black;
 }
 .card{
     display: flex;
@@ -55,7 +55,6 @@ html {
     border: 1px solid black;
     width: 55px;
     min-height: 80px;
-
 }
 .page{
     display: flex;
@@ -84,13 +83,15 @@ html {
     width: 55px;
     display: flex;
     justify-content: center;
+    border-bottom: 1px solid black;
 }
 .score{
-    height: 72px;
+    height: 111px;
     width: 55px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-bottom: 1px solid black;
 }
 .selects {
     margin-top: 20px;
@@ -107,8 +108,13 @@ html {
 .playerInput{
     display: block;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
 .zip{
     margin-left: 73px;
+    margin-right: 15px;
     margin-top: 20px;
     border-radius: 5px;
 }
@@ -123,7 +129,35 @@ html {
     margin: 40px 0 75px 0;
     width: 100%;
     height: 50px;
+    display: none;
 }
 .yards{
     text-align: center;
+}
+.yards2{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+.handicap{
+    text-align: center;
+}
+.handicap2{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+.inOut{
+    height: auto;
+    width: 57px;
+    background: whitesmoke;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.title{
+    text-align: center;
+    margin-top: 38px;
+    margin-bottom: 27px;
+}
+.break{
+    border-bottom: 1px solid black;
+    height: 10px;
 }

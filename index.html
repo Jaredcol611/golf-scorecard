@@ -8,20 +8,21 @@
     <link rel="stylesheet" href="custom.css">
 
 </head>
-<body onload="hideTitle()">
+<body>
 
     <div class="courseName"></div>
     <div class="page">
         <div class="container">
             <div class="zipInput">
-                <input onchange="getLocation(this.value)" class="zip" placeholder="City or zip">
+                <input class="zip" placeholder="City or zip">
+                <button onclick="getLocation($('.zip').val())" class="search">Search</button>
             </div>
             <div class="selects">
                 <select id="selectCourse" onchange="getCourse(this.value)" ></select>
                 <select id="teeSelect"></select>
             </div>
             <div class="inputs">
-                <input class='playerInput playerOne' type="text" placeholder='Player One'>
+                <input class='playerInput playerOne' type="text" placeholder='Player One' required>
                 <input class='playerInput playerTwo' type="text" placeholder='Player Two'>
                 <input class='playerInput playerThree' type="text" placeholder='Player Three'>
                 <input class='playerInput playerFour' type="text" placeholder='Player Four'>
