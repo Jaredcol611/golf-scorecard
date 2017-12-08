@@ -11,9 +11,7 @@ let local_obj;
 let zipSearch;
 let totalHCP = 0;
 let key = 'AIzaSyCDt-DBTk2MCvsZZI_9pB7IInyxu3pJt0Y';
-//lat 40.391617 lng -111.850766
-
-// MAKE A ROW OF ALL THE HANDICAP UNDER ALL THE INPUTS AND THEN A LONG BAR FOR OUT AND IN
+//lat 40.391617 lng -111.850766 -- original local_obj
 
 function getLocation(zipCode){
     $.get('https://maps.googleapis.com/maps/api/geocode/json?address='+zipCode+'&key='+key+'', function(data, status){
@@ -47,9 +45,6 @@ function getCourse(courseId){
         }
     });
 }
-//onclick=getCourse
-//course select and option as html tags
-//in function call before all this hits do $('#teeSelect').html("")
 function buildCard(myTee){
     playerName.push($('.playerOne').val(), $('.playerTwo').val(), $('.playerThree').val(), $('.playerFour').val());
     if($('.playerFour').val().trim() === ""){
@@ -65,8 +60,6 @@ function buildCard(myTee){
        alert("Please enter a player.");
     }
     //Possible separate function here to call after checking for names
-    // $('.scoreColumn').html("");
-    // $('.playerColumn').html("");
     $('.container').hide();
     numHoles = currentCourse.course.holes;
     for(let c in numHoles){
@@ -93,37 +86,47 @@ function buildCard(myTee){
     fillCard();
 }
 function fillCard(){
-  //  let playerName = input.val();
     $('#column9').after("<div class='inOut' id='out'><div class='title'>Out Score</div><div class='break'></div></div>");
     $('#column18').after("<div class='inOut' id='in'><div class='title'>In<br>Score</div><div class='break'></div></div>");
     for(let p = 1; p <= numPlayers; p++){
         $('.playerColumn').append("<div id='pl" + p +"'><span onclick='deletePlayer(" + p + ")'><i class=\"fa fa-minus-circle\" aria-hidden=\"true\"></i></span>  <div contenteditable='true'>" + playerName[p - 1] + "</div></div>");
-        //this is the out and in output for the back and front 9
-        $('#out').append("<input type='number' class='holeInput' id='player" + p + "Out'>");
-        $('#in').append("<input type='number' class='holeInput' id='player" + p + "In'>");
-       $('.totalColumn').append("<input type='number' class='holeInput' id='totalHole" + p + "'>");
+        $('#out').append("<input type='number' class='holeInput' id='player" + p + "Out' value='0' readonly>");
+        $('#in').append("<input type='number' class='holeInput' id='player" + p + "In' value='0' readonly>");
+       $('.totalColumn').append("<input type='number' class='holeInput' id='totalHole" + p + "' value='0' readonly>");
         for(let h = 1; h <= numHoles.length; h++){
-            //make if statement for h < 9 && h > 9
-            $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore(" + p +  ")'>");
+            if(h <= 9) {
+                $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore("+p+")'>");
+            } else {
+                $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore("+p+")'>");
+            }
         }
     }
-
-
-
 }
 function deletePlayer(playerid){
     $('#pl' + playerid).remove();
-    for(let h = 1; h <= numHoles.length; h++){
+    for(let h = 1; h <= numHoles.length; h++) {
         $('#player' + playerid + 'hole' + h).remove();
         $('#totalHole' + playerid).remove();
     }
+        $('#player' + playerid + 'In').remove();
+        $('#player' + playerid + 'Out').remove();
 }
-function updateScore(playerid){
+//be sure to get front and back 9 in here
+function updateScore(playerid) {
     let playerTotal = 0;
-    for(let t = 1; t <= numHoles.length; t++){
+    let outTotal = 0;
+    let inTotal = 0;
+    for (let t = 1; t <= numHoles.length; t++) {
         playerTotal += Number($("#player" + playerid + "hole" + t).val());
+        $("#totalHole" + playerid).val(playerTotal);
     }
-    $("#totalHole" + playerid).val(playerTotal);
+    for(let t = 1; t <= 9; t++) {
+        outTotal += Number($("#player" + playerid + "hole" + t).val());
+        $('#player' + playerid + "Out").val(outTotal);
+        $('#player' + playerid + "In").val("");
+    }
+    for(let t = 10; t <= 18; t++) {
+        inTotal += Number($("#player" + playerid + "hole" + t).val());
+        $('#player' + playerid + "In").val(inTotal);
+    }
 }
-
-
