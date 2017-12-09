@@ -8,11 +8,12 @@ html {
 
 }
 .holeInput {
-    width: 100%;
+    width: 52px;
     min-height: 40px;
     font-size: 30px;
     padding: 0;
     margin: 0;
+
 }
 .scoreColumn{
     display: flex;
@@ -166,4 +167,7 @@ input[type=number]::-webkit-outer-spin-button {
 .break{
     border-bottom: 1px solid black;
     height: 10px;
+}
+.clear{
+    display: none;
 }

@@ -1,14 +1,17 @@
 let closeCourses;
 let currentCourse;
 let numHoles;
-let numPlayers = 4;
+let numPlayers = 0;
 let playerName = [];
 let parTotal = 0;
 let totalYards = 0;
+let holePar;
 let lati;
 let longi;
+let holeYards;
 let local_obj;
 let zipSearch;
+let handicap;
 let totalHCP = 0;
 let key = 'AIzaSyCDt-DBTk2MCvsZZI_9pB7IInyxu3pJt0Y';
 //lat 40.391617 lng -111.850766 -- original local_obj
@@ -20,11 +23,11 @@ function getLocation(zipCode){
         lati = zipSearch.results[0].geometry.location.lat;
         longi = zipSearch.results[0].geometry.location.lng;
         local_obj = {latitude: lati, longitude: longi, radius: 100};
-        loadMe();
+        loadCourse();
         $('#selectCourse').html("");
     })
 }
-function loadMe() {
+function loadCourse() {
     $.post("https://golf-courses-api.herokuapp.com/courses", local_obj, function(data, status) {
         closeCourses = JSON.parse(data);
         for (let i in closeCourses.courses){
@@ -46,59 +49,70 @@ function getCourse(courseId){
     });
 }
 function buildCard(myTee){
-    playerName.push($('.playerOne').val(), $('.playerTwo').val(), $('.playerThree').val(), $('.playerFour').val());
-    if($('.playerFour').val().trim() === ""){
-        numPlayers = 3;
+    if($('.playerOne').val().trim() !== ""){
+        playerName.push($('.playerOne').val());
+        numPlayers++;
     }
-    if($('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
-        numPlayers = 2;
+    if($('.playerTwo').val().trim() !== ""){
+        playerName.push($('.playerTwo').val());
+        numPlayers++
     }
-    if($('.playerTwo').val().trim() === "" && $('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
-        numPlayers = 1;
+    if($('.playerThree').val().trim() !== ""){
+        playerName.push($('.playerThree').val());
+        numPlayers++
     }
+    if($('.playerFour').val().trim() !== ""){
+        playerName.push($('.playerFour').val());
+        numPlayers++
+    }
+    for(let i in playerName){
+        if(playerName[Number(i)] === playerName[(Number(i)+1)]){
+            console.log("woot");
+        }
+    }
+//put something that compares strings in the value so you can't have more than one. figure out how to use toast. create a .show .hide thing for clearing the card and then going back to select another course
     if($('.playerOne').val().trim() === "" && $('.playerTwo').val().trim() === "" && $('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
        alert("Please enter a player.");
-    }
-    //Possible separate function here to call after checking for names
-    $('.container').hide();
-    numHoles = currentCourse.course.holes;
-    for(let c in numHoles){
-        let holePar = currentCourse.course.holes[c].tee_boxes[myTee].par;
-        $('.scoreColumn').append("<div id='column" + (Number(c)+1) + "' class='column'><div class='holeNumber'>" + (Number(c)+1) + "</div><div class='holeNumber'>Par " + holePar + "</div></div>");
-        parTotal += holePar;
-        let holeYards = currentCourse.course.holes[c].tee_boxes[myTee].yards;
-        let handicap = currentCourse.course.holes[c].tee_boxes[myTee].hcp;
-        if(handicap === undefined){
-            handicap = "";
-            $('.yards').html("");
-            $('.yards2').html("");
+    } else {
+        //Possible separate function here to call after checking for names
+        $('.container').hide();
+        numHoles = currentCourse.course.holes;
+        for (let c in numHoles) {
+            holePar = currentCourse.course.holes[c].tee_boxes[myTee].par;
+            $('.scoreColumn').append("<div id='column" + (Number(c) + 1) + "' class='column'><div class='holeNumber'>" + (Number(c) + 1) + "</div><div class='holeNumber'>Par " + holePar + "</div></div>");
+            parTotal += holePar;
+            holeYards = currentCourse.course.holes[c].tee_boxes[myTee].yards;
+            handicap = currentCourse.course.holes[c].tee_boxes[myTee].hcp;
+            if (handicap === undefined) {
+                handicap = "0";
+            }
+            totalYards += holeYards;
+            totalHCP += handicap;
+            $('#column' + (Number(c) + 1)).append("<div class='yards'>Yards:</div><div class='yards2'>" + holeYards + "</div><div class='handicap'>HCP:</div><div class='handicap2'>" + handicap + "</div>");
         }
-        totalYards += holeYards;
-        totalHCP += handicap;
-        $('#column' + (Number(c)+1)).append("<div class='yards'>Yards:</div><div class='yards2'>" + holeYards + "</div><div class='handicap'>HCP:</div><div class='handicap2'>" + handicap + "</div>");
+        //let thumbNail = currentCourse.course.thumbnail;
+        $('html').css("background-image", "url(./images/course3.jpg)");
+        $('.scoreColumn').append("<div class='totals column'><div class='total' >Totals:</div><div class='total'>Par " + parTotal + "</div><div class='yards'>Yards:</div><div class='yards2'>" + totalYards + "</div></div>");
+        $('.scoreColumn').append("<div class='totalColumn column'><div class='score'>Score</div></div>");
+        let courseName = currentCourse.course.name;
+        $('.courseName').append(courseName).show();
+        $('.clear').show();
+        fillCard();
+        if(numHoles.length <= 9){
+            $('.card').css("justifyContent", "center");
+        }
     }
-    //let thumbNail = currentCourse.course.thumbnail;
-    $('html').css("background-image", "url(./images/course3.jpg)");
-    $('.scoreColumn').append("<div class='totals column'><div class='total' >Totals:</div><div class='total'>Par " + parTotal + "</div><div class='yards'>Yards:</div><div class='yards2'>" + totalYards + "</div></div>");
-    $('.scoreColumn').append("<div class='totalColumn column'><div class='score'>Score</div></div>");
-    let courseName = currentCourse.course.name;
-    $('.courseName').append(courseName).show();
-    fillCard();
 }
 function fillCard(){
     $('#column9').after("<div class='inOut' id='out'><div class='title'>Out Score</div><div class='break'></div></div>");
     $('#column18').after("<div class='inOut' id='in'><div class='title'>In<br>Score</div><div class='break'></div></div>");
     for(let p = 1; p <= numPlayers; p++){
         $('.playerColumn').append("<div id='pl" + p +"'><span onclick='deletePlayer(" + p + ")'><i class=\"fa fa-minus-circle\" aria-hidden=\"true\"></i></span>  <div contenteditable='true'>" + playerName[p - 1] + "</div></div>");
-        $('#out').append("<input type='number' class='holeInput' id='player" + p + "Out' value='0' readonly>");
-        $('#in').append("<input type='number' class='holeInput' id='player" + p + "In' value='0' readonly>");
-       $('.totalColumn').append("<input type='number' class='holeInput' id='totalHole" + p + "' value='0' readonly>");
+        $('#out').append("<input type='number' class='holeInput' id='player" + p + "Out' value='0' tabindex='-1' readonly>");
+        $('#in').append("<input type='number' class='holeInput' id='player" + p + "In' value='0' tabindex='-1' readonly>");
+       $('.totalColumn').append("<input type='number' class='holeInput' id='totalHole" + p + "' value='0' tabindex='-1' readonly>");
         for(let h = 1; h <= numHoles.length; h++){
-            if(h <= 9) {
-                $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore("+p+")'>");
-            } else {
-                $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore("+p+")'>");
-            }
+            $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore("+p+")'>");
         }
     }
 }
@@ -110,6 +124,7 @@ function deletePlayer(playerid){
     }
         $('#player' + playerid + 'In').remove();
         $('#player' + playerid + 'Out').remove();
+        toastr.warning(playerid + " has been deleted");
 }
 //be sure to get front and back 9 in here
 function updateScore(playerid) {
@@ -129,4 +144,45 @@ function updateScore(playerid) {
         inTotal += Number($("#player" + playerid + "hole" + t).val());
         $('#player' + playerid + "In").val(inTotal);
     }
+    if(numHoles.length <= 9) {
+        if($('#player' + playerid + 'hole9').val() >= 1) {
+            if ($('#totalHole' + playerid).val() < parTotal) {
+                window.setTimeout(function() {
+                    toastr.success("Player " + playerid + " had a great game, with " + (parTotal - playerTotal) + " under par!")
+                }, 500)
+            }
+            else if ($('#totalHole' + playerid).val() > parTotal){
+                window.setTimeout(function () {
+                toastr.error("Player " + playerid + "\'s score was " + (playerTotal - parTotal) + " above par. Better luck next time!")
+            }, 500)
+                }
+            else {
+                window.setTimeout(function() {
+                    toastr.info("Player " + playerid + "\'s score was on par! Good job! Next time, you'll get under par!")
+                }, 500)
+            }
+            }
+        }
+    else {
+        if($('#player' + playerid + 'hole18').val() >= 1) {
+            if ($('#totalHole' + playerid).val() < parTotal) {
+                window.setTimeout(function(){
+                    toastr.success("Player " + playerid + " had a great game, with " + (parTotal - playerTotal) + " under par!")
+                }, 500)
+            }
+            else if($('#totalHole' + playerid).val() > parTotal) {
+                window.setTimeout(function () {
+                    toastr.error("Player " + playerid + "\'s score was " + (playerTotal - parTotal) + " above par. Better luck next time!")
+                }, 500)
+            }
+            else {
+                window.setTimeout(function() {
+                    toastr.info("Player " + playerid + "\'s score was on par! Good job! Next time, you'll get under par!")
+                }, 500)
+                }
+            }
+        }
 }
+// function clearCard(){
+//     $('input').val("");
+// }
