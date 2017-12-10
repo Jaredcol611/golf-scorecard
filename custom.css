@@ -48,6 +48,8 @@ html {
 .holeNumber{
     text-align: center;
     border-bottom: 1px solid black;
+    background-color: green;
+    color: white;
 }
 .card{
     display: flex;
@@ -89,6 +91,8 @@ html {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid black;
+    background-color: green;
+    color: white;
 }
 .score{
     height: 111px;
@@ -145,10 +149,13 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .handicap{
     text-align: center;
+    background-color: #D1C6A8;
 }
 .handicap2{
     text-align: center;
     border-bottom: 1px solid black;
+    background-color: #D1C6A8;
+
 }
 .inOut{
     height: auto;
