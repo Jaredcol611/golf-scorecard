@@ -13,6 +13,7 @@ let local_obj;
 let zipSearch;
 let handicap;
 let totalHCP = 0;
+let arr = [];
 let key = 'AIzaSyCDt-DBTk2MCvsZZI_9pB7IInyxu3pJt0Y';
 //lat 40.391617 lng -111.850766 -- original local_obj
 
@@ -48,18 +49,6 @@ function getCourse(courseId){
         }
     });
 }
-function validation() {
-    let name1 = document.forms["inputs"]["name1"].value;
-    let name2 = document.forms["inputs"]["name2"].value;
-    let name3 = document.forms["inputs"]["name3"].value;
-    let name4 = document.forms["inputs"]["name4"].value;
-
-    if(name1 == name2){
-
-    }
-}
-
-
 function buildCard(myTee){
 
     if($('.playerOne').val().trim() !== ""){
@@ -78,11 +67,11 @@ function buildCard(myTee){
         playerName.push($('.playerFour').val());
         numPlayers++
     }
-    for(let i in playerName){
-        if(playerName[Number(i)] === playerName[(Number(i)+1)]){
-            console.log("woot");
-        }
-    }
+    // for(let i in playerName){
+    //     if(playerName[Number(i)] === playerName[(Number(i)+1)]){
+    //         console.log("same!!");
+    //     }
+    // }
     if($('.playerOne').val().trim() === "" && $('.playerTwo').val().trim() === "" && $('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
        alert("Please enter a player.");
     } else {
