@@ -23,13 +23,16 @@
                 <select id="teeSelect"></select>
             </div>
             <div class="inputs">
-                <input class='playerInput playerOne' type="text" placeholder='Player One' required>
-                <input class='playerInput playerTwo' type="text" placeholder='Player Two'>
-                <input class='playerInput playerThree' type="text" placeholder='Player Three'>
-                <input class='playerInput playerFour' type="text" placeholder='Player Four'>
+                <form name="inputs">
+                    <input class='playerInput playerOne' type="text" name="name1" placeholder='Player One' required>
+                    <input class='playerInput playerTwo' type="text" name="name2" placeholder='Player Two'>
+                    <input class='playerInput playerThree' type="text" name="name3" placeholder='Player Three'>
+                    <input class='playerInput playerFour' type="text" name="name4" placeholder='Player Four'>
+                </form>
             </div>
             <div class="build">
-                <button onclick="buildCard($('#teeSelect').val())">Build Card</button>
+                <!--<button onclick="buildCard($('#teeSelect').val())">Build Card</button>-->
+                <button onclick="validation()">Build Card</button>
             </div>
         </div>
     </div>

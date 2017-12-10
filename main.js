@@ -48,7 +48,20 @@ function getCourse(courseId){
         }
     });
 }
+function validation() {
+    let name1 = document.forms["inputs"]["name1"].value;
+    let name2 = document.forms["inputs"]["name2"].value;
+    let name3 = document.forms["inputs"]["name3"].value;
+    let name4 = document.forms["inputs"]["name4"].value;
+
+    if(name1 == name2){
+
+    }
+}
+
+
 function buildCard(myTee){
+
     if($('.playerOne').val().trim() !== ""){
         playerName.push($('.playerOne').val());
         numPlayers++;
@@ -70,12 +83,11 @@ function buildCard(myTee){
             console.log("woot");
         }
     }
-//put something that compares strings in the value so you can't have more than one. figure out how to use toast. create a .show .hide thing for clearing the card and then going back to select another course
     if($('.playerOne').val().trim() === "" && $('.playerTwo').val().trim() === "" && $('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
        alert("Please enter a player.");
     } else {
-        //Possible separate function here to call after checking for names
         $('.container').hide();
+        $('html').css("background-image", "url(./images/course3.jpg)");
         numHoles = currentCourse.course.holes;
         for (let c in numHoles) {
             holePar = currentCourse.course.holes[c].tee_boxes[myTee].par;
@@ -91,7 +103,6 @@ function buildCard(myTee){
             $('#column' + (Number(c) + 1)).append("<div class='yards'>Yards:</div><div class='yards2'>" + holeYards + "</div><div class='handicap'>HCP:</div><div class='handicap2'>" + handicap + "</div>");
         }
         //let thumbNail = currentCourse.course.thumbnail;
-        $('html').css("background-image", "url(./images/course3.jpg)");
         $('.scoreColumn').append("<div class='totals column'><div class='total' >Totals:</div><div class='total'>Par " + parTotal + "</div><div class='yards'>Yards:</div><div class='yards2'>" + totalYards + "</div></div>");
         $('.scoreColumn').append("<div class='totalColumn column'><div class='score'>Score</div></div>");
         let courseName = currentCourse.course.name;
@@ -112,7 +123,7 @@ function fillCard(){
         $('#in').append("<input type='number' class='holeInput' id='player" + p + "In' value='0' tabindex='-1' readonly>");
        $('.totalColumn').append("<input type='number' class='holeInput' id='totalHole" + p + "' value='0' tabindex='-1' readonly>");
         for(let h = 1; h <= numHoles.length; h++){
-            $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore("+p+")'>");
+            $('#column' + h).append("<input type='number' id='player" + p + "hole" + h + "' class='holeInput' onkeyup='updateScore("+p+")' max='15' min='0'>");
         }
     }
 }
@@ -124,7 +135,7 @@ function deletePlayer(playerid){
     }
         $('#player' + playerid + 'In').remove();
         $('#player' + playerid + 'Out').remove();
-        toastr.warning(playerid + " has been deleted");
+        toastr.warning("player " + playerid + " has been deleted");
 }
 //be sure to get front and back 9 in here
 function updateScore(playerid) {
