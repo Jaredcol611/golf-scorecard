@@ -124,7 +124,7 @@ function deletePlayer(playerid){
     }
         $('#player' + playerid + 'In').remove();
         $('#player' + playerid + 'Out').remove();
-        toastr.warning("player " + playerid + " has been deleted");
+        toastr.warning("Player " + playerid + " has been deleted");
 }
 //be sure to get front and back 9 in here
 function updateScore(playerid) {
