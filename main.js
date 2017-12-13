@@ -49,6 +49,20 @@ function getCourse(courseId){
         }
     });
 }
+// $(document).ready(function(){
+//     $('.ter').click(function(e) {
+//         let stored  =   [];
+//         let inputs  =   $('.playerInput');
+//         $.each(inputs,function(k,v){
+//             let getVal  =   $(v).val();
+//             if(stored.indexOf(getVal) !== -1)
+//                 $(v).fadeOut();
+//             else
+//                 stored.push($(v).val());
+//         });
+//     });
+// });
+
 function buildCard(myTee){
 
     if($('.playerOne').val().trim() !== ""){
@@ -67,11 +81,6 @@ function buildCard(myTee){
         playerName.push($('.playerFour').val());
         numPlayers++
     }
-    // for(let i in playerName){
-    //     if(playerName[Number(i)] === playerName[(Number(i)+1)]){
-    //         console.log("same!!");
-    //     }
-    // }
     if($('.playerOne').val().trim() === "" && $('.playerTwo').val().trim() === "" && $('.playerThree').val().trim() === "" && $('.playerFour').val().trim() === ""){
        alert("Please enter a player.");
     } else {
