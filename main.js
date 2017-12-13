@@ -13,7 +13,7 @@ let local_obj;
 let zipSearch;
 let handicap;
 let totalHCP = 0;
-let arr = [];
+// let arr = [];
 let key = 'AIzaSyCDt-DBTk2MCvsZZI_9pB7IInyxu3pJt0Y';
 //lat 40.391617 lng -111.850766 -- original local_obj
 
@@ -33,7 +33,7 @@ function loadCourse() {
         closeCourses = JSON.parse(data);
         for (let i in closeCourses.courses){
             console.log(closeCourses.courses[i].name);
-            $('#selectCourse').append('<option value="' + closeCourses.courses[i].id + '">' + closeCourses.courses[i].name + '</option>');
+            $('#selectCourse').append('<option>Select Course</option><option value="' + closeCourses.courses[i].id + '">' + closeCourses.courses[i].name + '</option>');
         }
     });
 }
