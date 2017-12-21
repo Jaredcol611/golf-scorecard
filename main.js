@@ -31,9 +31,10 @@ function getLocation(zipCode){
 function loadCourse() {
     $.post("https://golf-courses-api.herokuapp.com/courses", local_obj, function(data, status) {
         closeCourses = JSON.parse(data);
+        $('#selectCourse').append('<option>Select Course</option>');
         for (let i in closeCourses.courses){
             console.log(closeCourses.courses[i].name);
-            $('#selectCourse').append('<option>Select Course</option><option value="' + closeCourses.courses[i].id + '">' + closeCourses.courses[i].name + '</option>');
+            $('#selectCourse').append('<option value="' + closeCourses.courses[i].id + '">' + closeCourses.courses[i].name + '</option>');
         }
     });
 }
@@ -107,9 +108,7 @@ function buildCard(myTee){
         $('.courseName').append(courseName).show();
         $('.clear').show();
         fillCard();
-        if(numHoles.length <= 9){
-            $('.card').css("justifyContent", "center");
-        }
+        $('.card').css("justifyContent", "center");
     }
 }
 function fillCard(){
